@@ -12,6 +12,9 @@ namespace Bouncy.Player
         [Tooltip("this value will multiply with player holding time")]
         [SerializeField] float holdingTimeJumpMultiplayer = 100;
 
+        [SerializeField] private Transform directionIndicator;
+        
+        
         public PlayerState playerState = PlayerState.Idled;
         public float  maxHoldingTime = 1;
         [HideInInspector] public float holdingTime;
@@ -59,10 +62,15 @@ namespace Bouncy.Player
             _rb.AddForce(Vector2.up * normalJumpForce);
         }
 
-        void LongJump(float holdingTime)
+        void LongJump(float holdingTime_)
         {
-            holdingTime = Mathf.Clamp(holdingTime,0, maxHoldingTime);
-            _rb.AddForce(Vector2.up * (longJumpMinForce + holdingTime * holdingTimeJumpMultiplayer));
+            holdingTime_ = Mathf.Clamp(holdingTime_,0, maxHoldingTime);
+            _rb.AddForce(GetJumpDir() * (longJumpMinForce + holdingTime_ * holdingTimeJumpMultiplayer));
+        }
+
+        Vector3 GetJumpDir()
+        {
+            return directionIndicator.position - transform.position;
         }
     }
 }

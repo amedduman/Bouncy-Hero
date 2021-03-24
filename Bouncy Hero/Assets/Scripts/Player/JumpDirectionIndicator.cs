@@ -1,4 +1,5 @@
 using System;
+using Unity.Mathematics;
 using UnityEngine;
 
 
@@ -11,10 +12,12 @@ namespace Bouncy.Player
         [SerializeField] SpriteRenderer indicator;
 
         Transform _tr;
+        private Camera _cam;
 
         private void Awake()
         {
             _tr = GetComponent<Transform>();
+            _cam = Camera.main;
         }
 
         void Update()
@@ -22,17 +25,32 @@ namespace Bouncy.Player
             switch (pc.playerState)
             {
                 case PlayerState.Holding:
-                    GrowIndicator();
+                    ShowIndicator();
                     break;
                 case PlayerState.Idled:
-                    DisappearIndicator();
+                    HideIndicator();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
         }
 
-        void DisappearIndicator()
+        void ShowIndicator()
+        {
+            GrowIndicator();
+            RotateIndicator();
+        }
+
+        private void RotateIndicator()
+        {
+            var mousePos = _cam.ScreenToWorldPoint(Input.mousePosition);
+            var dir = mousePos - _tr.position;
+            var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90;
+
+            _tr.rotation = Quaternion.Euler(0, 0, angle);
+        }
+
+        void HideIndicator()
         {
             indicator.enabled = false;
             _tr.localScale = Vector3.zero;
