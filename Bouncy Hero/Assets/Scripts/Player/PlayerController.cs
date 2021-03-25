@@ -36,8 +36,12 @@ namespace Bouncy.Player
         {
             if (Input.GetMouseButton(0))
             {
-                playerState = PlayerState.Holding;
+                
                 holdingTime += Time.deltaTime;
+                if (holdingTime > longClickTimeThreshold)
+                {
+                    playerState = PlayerState.Holding;
+                }
             }
 
             if (Input.GetMouseButtonUp(0))
