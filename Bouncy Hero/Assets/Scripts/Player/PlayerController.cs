@@ -116,7 +116,7 @@ namespace Bouncy.Player
             {
                 isGrounded = false;
             }
-            Debug.Log(isGrounded);
+            // Debug.Log(isGrounded);
         }
     }
 }
