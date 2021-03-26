@@ -12,9 +12,12 @@ namespace Bouncy.Player
         [Tooltip("this value will multiply with player holding time")]
         [SerializeField] float holdingTimeJumpMultiplayer = 100;
         [SerializeField] bool isInRageMode = false;
+        [SerializeField] bool hasRightToBeInRageMode = true;
         [SerializeField] bool isGrounded = false;
+        [SerializeField] bool isLongJump = false;
         public bool IsinRageMode { get { return isInRageMode; } private set { } }
-        [SerializeField] float rageModeSpeed = 5f;
+        [SerializeField] float rageModeHighSpeed = 5f;
+        [SerializeField] float rageModeLowSpeed = 1f;
         [SerializeField] private Transform directionIndicator;
         [SerializeField] SpriteRenderer playerGFX;
         [SerializeField] Color normalModeColor;
@@ -42,7 +45,7 @@ namespace Bouncy.Player
 
         void ControlPlayerInput()
         {
-            if(isGrounded & !isInRageMode)
+            if(isGrounded & !isInRageMode & hasRightToBeInRageMode)
             {
                 if (Input.GetMouseButton(0))
                 {
@@ -60,10 +63,12 @@ namespace Bouncy.Player
 
                     if (holdingTime > longClickTimeThreshold)
                     {
+                        isLongJump = true;
                         LongJump(holdingTime);
                     }
                     else
                     {
+                        isLongJump = false;
                         NormalJump();
                     }
 
@@ -91,7 +96,7 @@ namespace Bouncy.Player
         public void CheckRageMode()
         {
             //Debug.Log(_rb.velocity.magnitude);
-            if (_rb.velocity.magnitude > rageModeSpeed)
+            if (_rb.velocity.magnitude > rageModeHighSpeed & hasRightToBeInRageMode & isLongJump)
             {
                 isInRageMode = true;
                 playerGFX.color = rageModeColor;
@@ -99,7 +104,13 @@ namespace Bouncy.Player
             else
             {
                 isInRageMode = false;
+                hasRightToBeInRageMode = false;
                 playerGFX.color = normalModeColor;
+            }
+
+            if (_rb.velocity.magnitude < rageModeLowSpeed & isGrounded)
+            {
+                hasRightToBeInRageMode = true;
             }
         }
 
