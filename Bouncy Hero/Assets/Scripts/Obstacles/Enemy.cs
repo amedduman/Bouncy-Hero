@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Bouncy.Player;
 
 
 
@@ -9,15 +10,13 @@ namespace Bouncy.Obstacles
     {
         public static event Action OnLevelEnd;
         
-        [SerializeField] private float deadlySpeed = 1;
         
         private void OnCollisionEnter2D(Collision2D other)
         {
             if (other.gameObject.CompareTag("Player"))
             {
-                var playerRb = other.gameObject.GetComponent<Rigidbody2D>();
-                var playerSpeed = playerRb.velocity;
-                if (playerSpeed.magnitude >deadlySpeed)
+                var playerController = other.gameObject.GetComponent<PlayerController>();
+                if (playerController.IsinRageMode)
                 {
                     Destroy(gameObject);
                     OnLevelEnd?.Invoke();

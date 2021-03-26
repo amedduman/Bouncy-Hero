@@ -179,7 +179,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51f0fced203bd95428b508ee278e1dd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deadlySpeed: 5.05
 --- !u!4 &29815503
 Transform:
   m_ObjectHideFlags: 0
@@ -945,7 +944,12 @@ MonoBehaviour:
   normalJumpForce: 300
   longJumpMinForce: 100
   holdingTimeJumpMultiplayer: 600
+  isInRageMode: 0
+  rageModeSpeed: 5
   directionIndicator: {fileID: 1530507530}
+  playerGFX: {fileID: 704424028}
+  normalModeColor: {r: 0.36078432, g: 0.8627451, b: 0.94509804, a: 1}
+  rageModeColor: {r: 0.8962264, g: 0.16487186, b: 0.16487186, a: 1}
   playerState: 0
   maxHoldingTime: 1.5
   holdingTime: 0
@@ -1028,7 +1032,7 @@ GameObject:
   - component: {fileID: 1337012597}
   - component: {fileID: 1337012596}
   - component: {fileID: 1337012598}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
